@@ -6,15 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { PLATFORMS as BASE_PLATFORMS } from "@/lib/platforms";
 
-const PLATFORMS = [
-  { name: "YouTube", icon: "🎬", slug: "youtube", supported: true, mediaType: "Video" },
-  { name: "Instagram", icon: "📸", slug: "instagram", supported: true, mediaType: "Image/Reel" },
-  { name: "TikTok", icon: "🎵", slug: "tiktok", supported: true, mediaType: "Video" },
-  { name: "Facebook", icon: "👤", slug: "facebook", supported: false, mediaType: "Post" },
-  { name: "LinkedIn", icon: "💼", slug: "linkedin", supported: false, mediaType: "Post" },
-  { name: "Substack", icon: "📝", slug: "substack", supported: false, mediaType: "Article" },
-];
+const MEDIA_TYPES: Record<string, string> = {
+  youtube: "Video", instagram: "Image/Reel", tiktok: "Video",
+  facebook: "Post", linkedin: "Post", substack: "Article",
+};
+
+const PLATFORMS = BASE_PLATFORMS.map((p) => ({
+  ...p, supported: p.publishSupported, mediaType: MEDIA_TYPES[p.slug] || "Post",
+}));
 
 export default function PublishPage() {
   const [title, setTitle] = useState("");

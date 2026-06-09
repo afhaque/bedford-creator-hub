@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const isLoginPage = request.nextUrl.pathname === "/login";
-  const isApiRoute = request.nextUrl.pathname.startsWith("/api/");
+  const pathname = request.nextUrl.pathname;
+  const isLoginPage = pathname === "/login";
   const authCookie = request.cookies.get("bedford-auth");
 
-  if (isApiRoute && request.nextUrl.pathname === "/api/auth") {
+  if (pathname.startsWith("/api/")) {
     return NextResponse.next();
   }
 

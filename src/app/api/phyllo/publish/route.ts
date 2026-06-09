@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { phylloFetch, isSandbox } from "@/lib/phyllo";
 
 export async function POST(request: NextRequest) {
   const { title, body, platforms } = await request.json();
 
-  const useMock = process.env.PHYLLO_ENV !== "production";
-
-  if (useMock) {
-    // Simulate successful publish in sandbox
+  if (isSandbox()) {
     return NextResponse.json({
       success: true,
       results: platforms.map((p: string) => ({
@@ -17,29 +15,24 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // In production, call Phyllo Publish API for each platform
   try {
-    const { phylloFetch } = await import("@/lib/phyllo");
-    const results = [];
-
-    for (const platform of platforms) {
-      try {
-        const result = await phylloFetch("/v1/social/contents/publish", {
+    const results = await Promise.allSettled(
+      platforms.map((platform: string) =>
+        phylloFetch("/v1/social/contents/publish", {
           method: "POST",
-          body: JSON.stringify({
-            title,
-            description: body,
-            platform,
-            visibility: "PUBLIC",
-          }),
-        });
-        results.push({ platform, status: "published", id: result.id });
-      } catch (err) {
-        results.push({ platform, status: "failed", error: String(err) });
-      }
-    }
+          body: JSON.stringify({ title, description: body, platform, visibility: "PUBLIC" }),
+        }).then((result) => ({ platform, status: "published" as const, id: result.id }))
+      )
+    );
 
-    return NextResponse.json({ success: true, results });
+    const mapped = results.map((r, i) =>
+      r.status === "fulfilled"
+        ? r.value
+        : { platform: platforms[i], status: "failed" as const, error: String(r.reason) }
+    );
+    const allSucceeded = mapped.every((r) => r.status === "published");
+
+    return NextResponse.json({ success: allSucceeded, results: mapped });
   } catch (error) {
     return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
   }

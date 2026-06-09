@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { PLATFORMS } from "@/lib/platforms";
 
 type Account = {
   id: string;
@@ -14,14 +15,7 @@ type Account = {
   followers: number;
 };
 
-const AVAILABLE_PLATFORMS = [
-  { name: "YouTube", icon: "🎬", slug: "youtube" },
-  { name: "Instagram", icon: "📸", slug: "instagram" },
-  { name: "TikTok", icon: "🎵", slug: "tiktok" },
-  { name: "Facebook", icon: "👤", slug: "facebook" },
-  { name: "LinkedIn", icon: "💼", slug: "linkedin" },
-  { name: "Substack", icon: "📝", slug: "substack" },
-];
+const AVAILABLE_PLATFORMS = PLATFORMS.map((p) => ({ name: p.name, icon: p.icon, slug: p.slug }));
 
 export default function ConnectPage() {
   const [accounts, setAccounts] = useState<Account[]>([]);

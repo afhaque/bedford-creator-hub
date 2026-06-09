@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { mockInfluencers } from "@/lib/mock-data";
+import { getPlatformIcon } from "@/lib/platforms";
 
 export default function ResearchPage() {
   const [isLiveMode, setIsLiveMode] = useState(false);
@@ -159,10 +160,3 @@ export default function ResearchPage() {
   );
 }
 
-function getPlatformIcon(platform: string): string {
-  const icons: Record<string, string> = {
-    youtube: "🎬", instagram: "📸", tiktok: "🎵",
-    facebook: "👤", linkedin: "💼", substack: "📝",
-  };
-  return icons[platform.toLowerCase()] || "🌐";
-}

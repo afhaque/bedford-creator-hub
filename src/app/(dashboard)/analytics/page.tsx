@@ -34,7 +34,7 @@ export default function AnalyticsPage() {
 
   const platformBreakdown = useMemo(() => {
     const map = new Map<string, { platform: string; views: number; likes: number; posts: number }>();
-    mockPosts.forEach((p) => {
+    filteredPosts.forEach((p) => {
       const existing = map.get(p.platform) || { platform: p.platform, views: 0, likes: 0, posts: 0 };
       existing.views += p.engagement.views;
       existing.likes += p.engagement.likes;
@@ -42,7 +42,7 @@ export default function AnalyticsPage() {
       map.set(p.platform, existing);
     });
     return Array.from(map.values());
-  }, []);
+  }, [filteredPosts]);
 
   const postBarData = useMemo(() => {
     return filteredPosts.map((p) => ({
