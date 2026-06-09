@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { phylloFetch } from "@/lib/phyllo";
 
 export async function POST(request: NextRequest) {
-  try {
-    const { platform } = await request.json();
+  const { platform, mode } = await request.json();
 
-    // Step 1: Create a Phyllo user (or use existing)
+  // Demo mode — return mock SDK token without calling Phyllo
+  if (mode !== "live") {
+    return NextResponse.json({
+      sdkToken: `mock-sdk-token-${platform}-${Date.now()}`,
+      userId: `mock-user-${platform}`,
+      platform,
+      demo: true,
+    });
+  }
+
+  // Live mode — call real Phyllo API
+  try {
     const user = await phylloFetch("/v1/users", {
       method: "POST",
       body: JSON.stringify({
@@ -14,7 +24,6 @@ export async function POST(request: NextRequest) {
       }),
     });
 
-    // Step 2: Generate SDK token for this user
     const sdkToken = await phylloFetch("/v1/sdk-tokens", {
       method: "POST",
       body: JSON.stringify({

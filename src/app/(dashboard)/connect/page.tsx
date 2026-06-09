@@ -49,7 +49,7 @@ export default function ConnectPage() {
       const res = await fetch("/api/phyllo/connect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ platform: platformSlug }),
+        body: JSON.stringify({ platform: platformSlug, mode: isLive ? "live" : "demo" }),
       });
       const data = await res.json();
 
