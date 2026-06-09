@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { mockInfluencers } from "@/lib/mock-data";
 import { getPlatformIcon } from "@/lib/platforms";
+import { useMode } from "@/lib/mode-context";
 
 export default function ResearchPage() {
-  const [isLiveMode, setIsLiveMode] = useState(false);
+  const { mode } = useMode();
+  const isLive = mode === "live";
   const [searchQuery, setSearchQuery] = useState("");
   const [liveProfiles, setLiveProfiles] = useState<typeof mockInfluencers>([]);
   const [liveLoading, setLiveLoading] = useState(false);
@@ -27,7 +28,7 @@ export default function ResearchPage() {
     );
   }, [searchQuery]);
 
-  async function fetchLiveProfiles() {
+  const fetchLiveProfiles = useCallback(async () => {
     setLiveLoading(true);
     try {
       const res = await fetch("/api/phyllo/profiles");
@@ -52,36 +53,24 @@ export default function ResearchPage() {
     } finally {
       setLiveLoading(false);
     }
-  }
+  }, []);
 
-  function handleModeSwitch(live: boolean) {
-    setIsLiveMode(live);
-    if (live) fetchLiveProfiles();
-  }
+  useEffect(() => {
+    if (isLive) fetchLiveProfiles();
+  }, [isLive, fetchLiveProfiles]);
 
-  const displayData = isLiveMode ? liveProfiles : filteredInfluencers;
+  const displayData = isLive ? liveProfiles : filteredInfluencers;
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-white">Research Influencers</h2>
-          <p className="text-zinc-400 mt-1">
-            Discover creators posting about topics relevant to your assignments.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className={`text-sm ${!isLiveMode ? "text-white font-medium" : "text-zinc-500"}`}>
-            Demo
-          </span>
-          <Switch checked={isLiveMode} onCheckedChange={handleModeSwitch} />
-          <span className={`text-sm ${isLiveMode ? "text-white font-medium" : "text-zinc-500"}`}>
-            Live
-          </span>
-        </div>
+      <div>
+        <h2 className="text-2xl font-bold text-white">Research Influencers</h2>
+        <p className="text-zinc-400 mt-1">
+          Discover creators posting about topics relevant to your assignments.
+        </p>
       </div>
 
-      {!isLiveMode && (
+      {!isLive && (
         <div className="relative">
           <Input
             placeholder="Search by topic, platform, or creator name..."
@@ -93,7 +82,7 @@ export default function ResearchPage() {
         </div>
       )}
 
-      {isLiveMode && (
+      {isLive && (
         <Card className="border-blue-900/50 bg-blue-950/20">
           <CardContent className="pt-6">
             <p className="text-sm text-blue-300">
@@ -104,11 +93,11 @@ export default function ResearchPage() {
         </Card>
       )}
 
-      {liveLoading ? (
+      {liveLoading && isLive ? (
         <div className="text-center text-zinc-500 py-12">Loading live profiles from Phyllo...</div>
       ) : displayData.length === 0 ? (
         <div className="text-center text-zinc-500 py-12">
-          {isLiveMode
+          {isLive
             ? "No connected accounts found. Connect accounts first."
             : "No creators match your search."}
         </div>
@@ -159,4 +148,3 @@ export default function ResearchPage() {
     </div>
   );
 }
-

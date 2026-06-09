@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/switch";
+import { useMode } from "@/lib/mode-context";
 
 const tabs = [
   { name: "Connect", href: "/connect", icon: "🔗" },
@@ -13,6 +15,8 @@ const tabs = [
 
 export function TabNav() {
   const pathname = usePathname();
+  const { mode, setMode } = useMode();
+  const isLive = mode === "live";
 
   return (
     <header className="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-sm sticky top-0 z-50">
@@ -25,23 +29,37 @@ export function TabNav() {
               Prototype
             </span>
           </div>
-          <nav className="flex gap-1">
-            {tabs.map((tab) => (
-              <Link
-                key={tab.href}
-                href={tab.href}
-                className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
-                  pathname === tab.href
-                    ? "bg-white text-zinc-900"
-                    : "text-zinc-400 hover:text-white hover:bg-zinc-800"
-                )}
-              >
-                <span className="mr-1.5">{tab.icon}</span>
-                {tab.name}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex items-center gap-6">
+            <nav className="flex gap-1">
+              {tabs.map((tab) => (
+                <Link
+                  key={tab.href}
+                  href={tab.href}
+                  className={cn(
+                    "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                    pathname === tab.href
+                      ? "bg-white text-zinc-900"
+                      : "text-zinc-400 hover:text-white hover:bg-zinc-800"
+                  )}
+                >
+                  <span className="mr-1.5">{tab.icon}</span>
+                  {tab.name}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center gap-2 pl-4 border-l border-zinc-800">
+              <span className={`text-xs ${!isLive ? "text-amber-400 font-medium" : "text-zinc-500"}`}>
+                Demo
+              </span>
+              <Switch
+                checked={isLive}
+                onCheckedChange={(checked) => setMode(checked ? "live" : "demo")}
+              />
+              <span className={`text-xs ${isLive ? "text-blue-400 font-medium" : "text-zinc-500"}`}>
+                Live
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </header>

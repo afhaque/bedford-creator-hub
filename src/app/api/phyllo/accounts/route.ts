@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { mockConnectedAccounts } from "@/lib/mock-data";
-import { phylloFetch, isSandbox, getPlatformIcon } from "@/lib/phyllo";
+import { phylloFetch, getPlatformIcon } from "@/lib/phyllo";
 
-export async function GET() {
-  if (isSandbox()) {
+export async function GET(request: NextRequest) {
+  const isLive = request.nextUrl.searchParams.get("mode") === "live";
+
+  if (!isLive) {
     return NextResponse.json({ accounts: mockConnectedAccounts });
   }
 
+  // Live mode — call real Phyllo API
   try {
     const data = await phylloFetch("/v1/accounts");
     const accounts = (data.data || []).map((acc: Record<string, unknown>) => ({
@@ -19,6 +22,6 @@ export async function GET() {
     }));
     return NextResponse.json({ accounts });
   } catch (error) {
-    return NextResponse.json({ accounts: mockConnectedAccounts, error: String(error) });
+    return NextResponse.json({ accounts: [], error: String(error) });
   }
 }
