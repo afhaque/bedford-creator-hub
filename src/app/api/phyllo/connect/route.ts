@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { phylloFetch } from "@/lib/phyllo";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const text = await request.text();
+    const body = JSON.parse(text || "{}");
     const platform = body?.platform || "unknown";
     const mode = body?.mode || "demo";
 
@@ -18,6 +18,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Live mode — call real Phyllo API
+    const { phylloFetch } = await import("@/lib/phyllo");
+
     const user = await phylloFetch("/v1/users", {
       method: "POST",
       body: JSON.stringify({
