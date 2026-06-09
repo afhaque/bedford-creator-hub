@@ -79,6 +79,114 @@ export const mockInfluencers = [
   },
 ];
 
+// Detailed creator profiles for Research drill-down
+export const mockCreatorDetails: Record<string, {
+  postsPerWeek: number;
+  audienceSplit: { label: string; pct: number }[];
+  growthRate: string;
+  topContent: { title: string; views: number; likes: number; date: string }[];
+  contentMix: { type: string; pct: number }[];
+  peakPostingTime: string;
+  avgPostFrequency: string;
+  nicheFit: string;
+}> = {
+  "inf-1": {
+    postsPerWeek: 3,
+    audienceSplit: [{ label: "18-24", pct: 22 }, { label: "25-34", pct: 45 }, { label: "35-44", pct: 23 }, { label: "45+", pct: 10 }],
+    growthRate: "+8.2% / month",
+    topContent: [
+      { title: "How I Built a 6-Figure Creator Business", views: 142000, likes: 9800, date: "2026-05-12" },
+      { title: "Creator Economy 2026: What's Changed", views: 89000, likes: 6200, date: "2026-04-28" },
+      { title: "5 Revenue Streams Every Creator Needs", views: 67000, likes: 4100, date: "2026-05-22" },
+    ],
+    contentMix: [{ type: "Long-form video", pct: 60 }, { type: "Shorts", pct: 25 }, { type: "Community posts", pct: 15 }],
+    peakPostingTime: "Tuesdays & Thursdays, 2-4 PM EST",
+    avgPostFrequency: "3 videos/week, 5 community posts/week",
+    nicheFit: "Strong alignment with creator education vertical. High-quality production, consistent schedule.",
+  },
+  "inf-2": {
+    postsPerWeek: 7,
+    audienceSplit: [{ label: "13-17", pct: 18 }, { label: "18-24", pct: 52 }, { label: "25-34", pct: 24 }, { label: "35+", pct: 6 }],
+    growthRate: "+15.4% / month",
+    topContent: [
+      { title: "Edit like a pro in 30 seconds", views: 2100000, likes: 180000, date: "2026-05-30" },
+      { title: "POV: Your first viral video", views: 890000, likes: 72000, date: "2026-06-02" },
+      { title: "3 transitions that change everything", views: 650000, likes: 54000, date: "2026-05-18" },
+    ],
+    contentMix: [{ type: "Tutorial", pct: 45 }, { type: "Trend/meme", pct: 30 }, { type: "Behind the scenes", pct: 25 }],
+    peakPostingTime: "Daily, 6-8 PM EST",
+    avgPostFrequency: "1-2 videos/day",
+    nicheFit: "Excellent for video editing niche. High virality, young audience, strong trend adoption.",
+  },
+  "inf-3": {
+    postsPerWeek: 5,
+    audienceSplit: [{ label: "18-24", pct: 28 }, { label: "25-34", pct: 42 }, { label: "35-44", pct: 20 }, { label: "45+", pct: 10 }],
+    growthRate: "+4.8% / month",
+    topContent: [
+      { title: "Your brand is not your logo (carousel)", views: 85000, likes: 7200, date: "2026-05-20" },
+      { title: "I audited 100 creator profiles", views: 62000, likes: 5100, date: "2026-06-01" },
+      { title: "Reel: Brand voice in 15 seconds", views: 120000, likes: 9800, date: "2026-05-25" },
+    ],
+    contentMix: [{ type: "Carousel", pct: 40 }, { type: "Reels", pct: 35 }, { type: "Stories", pct: 25 }],
+    peakPostingTime: "Mon/Wed/Fri, 11 AM EST",
+    avgPostFrequency: "5 posts/week, daily stories",
+    nicheFit: "Strong branding expertise. Carousel content performs well for educational format.",
+  },
+  "inf-4": {
+    postsPerWeek: 4,
+    audienceSplit: [{ label: "25-34", pct: 35 }, { label: "35-44", pct: 38 }, { label: "45-54", pct: 20 }, { label: "55+", pct: 7 }],
+    growthRate: "+6.1% / month",
+    topContent: [
+      { title: "The LinkedIn algorithm rewards this one thing", views: 45000, likes: 3200, date: "2026-05-15" },
+      { title: "I got 10M impressions. Here's what I learned.", views: 38000, likes: 2800, date: "2026-06-03" },
+      { title: "Stop writing LinkedIn posts like emails", views: 29000, likes: 2100, date: "2026-05-28" },
+    ],
+    contentMix: [{ type: "Text post", pct: 55 }, { type: "Document/PDF", pct: 25 }, { type: "Video", pct: 20 }],
+    peakPostingTime: "Tue-Thu, 8-9 AM EST",
+    avgPostFrequency: "4 posts/week",
+    nicheFit: "B2B thought leadership. Older professional audience, high engagement rate for the platform.",
+  },
+  "inf-5": {
+    postsPerWeek: 2,
+    audienceSplit: [{ label: "25-34", pct: 40 }, { label: "35-44", pct: 35 }, { label: "45+", pct: 25 }],
+    growthRate: "+3.2% / month",
+    topContent: [
+      { title: "Why I stopped chasing subscribers", views: 12000, likes: 890, date: "2026-05-20" },
+      { title: "The tools I actually use to write", views: 8500, likes: 620, date: "2026-06-05" },
+      { title: "Newsletter growth is dead. Long live newsletters.", views: 15000, likes: 1100, date: "2026-04-30" },
+    ],
+    contentMix: [{ type: "Long-form essay", pct: 60 }, { type: "Quick take", pct: 25 }, { type: "Resource list", pct: 15 }],
+    peakPostingTime: "Sundays, 10 AM EST",
+    avgPostFrequency: "2 newsletters/week",
+    nicheFit: "Deep writing expertise. Smaller but highly engaged audience. High open rates.",
+  },
+  "inf-6": {
+    postsPerWeek: 6,
+    audienceSplit: [{ label: "25-34", pct: 30 }, { label: "35-44", pct: 35 }, { label: "45-54", pct: 25 }, { label: "55+", pct: 10 }],
+    growthRate: "+2.9% / month",
+    topContent: [
+      { title: "How I grew my Facebook group to 200K", views: 120000, likes: 8500, date: "2026-05-10" },
+      { title: "Live Q&A: Group monetization strategies", views: 45000, likes: 3200, date: "2026-06-01" },
+      { title: "The death of organic reach (and what to do)", views: 67000, likes: 4800, date: "2026-05-22" },
+    ],
+    contentMix: [{ type: "Video", pct: 40 }, { type: "Text post", pct: 35 }, { type: "Live stream", pct: 25 }],
+    peakPostingTime: "Daily, varies",
+    avgPostFrequency: "1 post/day + 2 lives/week",
+    nicheFit: "Community building authority. Strong for group-based creator programs.",
+  },
+};
+
+export const trendingTopics = [
+  { topic: "AI-generated content", growth: "+340%", platforms: ["TikTok", "YouTube", "LinkedIn"], postsThisWeek: 12400 },
+  { topic: "Creator monetization", growth: "+89%", platforms: ["YouTube", "Substack", "Instagram"], postsThisWeek: 8200 },
+  { topic: "Short-form storytelling", growth: "+125%", platforms: ["TikTok", "Instagram", "YouTube"], postsThisWeek: 45000 },
+  { topic: "Personal branding", growth: "+56%", platforms: ["LinkedIn", "Instagram", "TikTok"], postsThisWeek: 6800 },
+  { topic: "Newsletter growth", growth: "+72%", platforms: ["Substack", "LinkedIn"], postsThisWeek: 3200 },
+  { topic: "Community-led growth", growth: "+93%", platforms: ["Facebook", "Discord", "YouTube"], postsThisWeek: 4100 },
+  { topic: "Video editing tutorials", growth: "+210%", platforms: ["TikTok", "YouTube"], postsThisWeek: 18900 },
+  { topic: "Creator burnout", growth: "+145%", platforms: ["YouTube", "Substack", "LinkedIn"], postsThisWeek: 2800 },
+];
+
 export const mockConnectedAccounts = [
   { id: "acc-1", platform: "YouTube", platformIcon: "🎬", handle: "@bedford-demo", status: "connected", followers: 1250 },
   { id: "acc-2", platform: "Instagram", platformIcon: "📸", handle: "@bedford.demo", status: "connected", followers: 3400 },
