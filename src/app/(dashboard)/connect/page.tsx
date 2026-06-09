@@ -53,14 +53,19 @@ export default function ConnectPage() {
       });
       const data = await res.json();
 
+      if (!res.ok) {
+        alert(`Connect failed (${res.status}): ${data.error || "Unknown error"}`);
+        return;
+      }
+
       if (data.sdkToken && data.userId) {
         alert(
           `Phyllo Connect SDK would open here.\n\nSDK Token: ${data.sdkToken.slice(0, 20)}...\nUser ID: ${data.userId}\n\nIn production, the Phyllo Connect widget handles the full OAuth flow for ${platformSlug}.`
         );
         await fetchAccounts(isLive);
       }
-    } catch {
-      alert("Failed to initialize connection. Check API configuration.");
+    } catch (err) {
+      alert(`Failed to connect: ${err}`);
     } finally {
       setConnecting(null);
     }
